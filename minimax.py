@@ -64,8 +64,6 @@ def minimax(board, depth, is_maximizing_player):
     if win_check(board) or is_board_full(board) or depth == 0:
         return [-1, -1, heuristic_evaluation(board)]
 
-    best_move = None
-
     if is_maximizing_player:
         max_score = [-1, -1, -inf]
 
