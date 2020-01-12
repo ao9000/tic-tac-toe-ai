@@ -26,8 +26,9 @@ class Player:
     def make_move(self, board):
         if self.bot:
             # Minimax algorithm
-            move = minimax(board, get_depth(board), True)
+            _, move = minimax(board, get_depth(board), True)
         else:
+            # Prompt the user to select a move
             index = input("Enter move: ")
             move = Player.convert_index_to_move(int(index))
 

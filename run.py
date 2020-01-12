@@ -1,10 +1,13 @@
-import random
 from player import Player
 from board import create_board, PLAYER_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
 
 
 def choose_mark():
-    """Prompts the user to enter their mark. (Noughts or crosses) (X or O)"""
+    """
+    Prompts the user to enter their mark. (Noughts or crosses) (X or O)
+
+    :return: The human's mark followed by bot's mark
+    """
 
     # Get user input for customization
     marks = ["X", "O"]
@@ -36,12 +39,12 @@ def main():
 
     # Create players
     human_mark, bot_mark = choose_mark()
-    bot = Player(bot=True, state=PLAYER_STATE, sign=bot_mark)
-    human = Player(bot=False, state=BOT_STATE, sign=human_mark)
+    bot = Player(bot=True, state=BOT_STATE, sign=bot_mark)
+    human = Player(bot=False, state=PLAYER_STATE, sign=human_mark)
 
     # Random starting player
-    players = [bot, human]
-    random.shuffle(players)
+    players = [human, bot]
+    # random.shuffle(players)
 
     # Loop turns
     while not win_check(board) and not is_board_full(board):
