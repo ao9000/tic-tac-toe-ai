@@ -1,3 +1,4 @@
+import random
 from player import Player
 from board import create_board, PLAYER_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
 
@@ -44,7 +45,7 @@ def main():
 
     # Random starting player
     players = [human, bot]
-    # random.shuffle(players)
+    random.shuffle(players)
 
     # Loop turns
     while not win_check(board) and not is_board_full(board):
