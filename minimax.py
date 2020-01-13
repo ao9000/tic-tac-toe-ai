@@ -1,6 +1,6 @@
 from math import inf
 from copy import deepcopy
-from board import BOT_STATE, PLAYER_STATE, BLANK_STATE, win_check, is_board_full
+from board import BOT_STATE, PLAYER_STATE, BLANK_STATE, win_check
 
 
 def heuristic_evaluation(board):
@@ -52,7 +52,7 @@ def get_possible_branches(board, is_maximizing_player):
 
 
 def get_depth(board):
-    depth = -1
+    depth = 0
 
     # Loop board
     for row in board:
@@ -65,7 +65,7 @@ def get_depth(board):
 
 def minimax(board, depth, is_maximizing_player):
     # Check if last node
-    if win_check(board) or is_board_full(board) or depth == 0:
+    if win_check(board) or depth == 0:
         return heuristic_evaluation(board), None
 
     best_move = ()
@@ -95,10 +95,9 @@ def minimax(board, depth, is_maximizing_player):
 
         return min_score, best_move
 
-
 # def minimax(board, depth, is_maximizing_player):
 #     # Check if last node
-#     if win_check(board) or is_board_full(board) or depth == 0:
+#     if win_check(board) or depth == 0:
 #         return heuristic_evaluation(board)
 #
 #     if is_maximizing_player:
