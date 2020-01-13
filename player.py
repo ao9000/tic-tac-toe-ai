@@ -6,6 +6,7 @@ class Player:
         self.bot = bot
         self.state = state
         self.mark = mark
+        self.name = "Bot" if self.bot else "Human"
 
     @staticmethod
     def convert_index_to_move(index):

@@ -80,6 +80,7 @@ def update_board(board, move, player):
         board[move[0]][move[1]] = player.state
     else:
         # Prompt the user to select a move again
+        print("Invalid move")
         return update_board(board, player.make_move(board), player)
 
     return board

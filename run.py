@@ -48,14 +48,19 @@ def main():
     random.shuffle(players)
 
     # Loop turns
-    while not win_check(board) and not is_board_full(board):
+    while True:
         for player in players:
+            print("\n{}'s turn".format("Bot" if player.bot else "Human"))
             move = player.make_move(board)
             board = update_board(board, move, player)
             display_board(board, players)
 
-            if win_check(board) or is_board_full(board):
-                break
+            if win_check(board):
+                print("Game over. {} wins!".format(player.name))
+                return
+            elif is_board_full(board):
+                print("Game over. Draw!")
+                return
 
 
 if __name__ == '__main__':
