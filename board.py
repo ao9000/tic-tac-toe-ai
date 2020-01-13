@@ -62,9 +62,9 @@ def display_board(board, players):
     for row_index, row in enumerate(board, start=0):
         for box_index, box in enumerate(row, start=0):
             if box == PLAYER_STATE:
-                board_copy[row_index][box_index] = next(player.sign for player in players if player.state == PLAYER_STATE)
+                board_copy[row_index][box_index] = next(player.mark for player in players if player.state == PLAYER_STATE)
             elif box == BOT_STATE:
-                board_copy[row_index][box_index] = next(player.sign for player in players if player.state == BOT_STATE)
+                board_copy[row_index][box_index] = next(player.mark for player in players if player.state == BOT_STATE)
             else:
                 # Blank mark
                 board_copy[row_index][box_index] = "_"

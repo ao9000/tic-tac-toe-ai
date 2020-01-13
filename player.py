@@ -2,10 +2,10 @@ from minimax import minimax, get_depth
 
 
 class Player:
-    def __init__(self, bot, state, sign):
+    def __init__(self, bot, state, mark):
         self.bot = bot
         self.state = state
-        self.sign = sign
+        self.mark = mark
 
     @staticmethod
     def convert_index_to_move(index):

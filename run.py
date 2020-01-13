@@ -12,16 +12,16 @@ def choose_mark():
 
     # Get user input for customization
     marks = ["X", "O"]
-    human_sign = str(input("Choose a mark {}: ".format(marks))).upper()
+    human_mark = str(input("Choose a mark {}: ".format(marks))).upper()
 
     # Integrity check for valid mark
-    if human_sign not in marks:
+    if human_mark not in marks:
         # Invalid, call function again
-        print("Invalid sign")
+        print("Invalid mark")
         return choose_mark()
     else:
         # Valid, return human mark & bot mark
-        if human_sign == marks[0]:
+        if human_mark == marks[0]:
             return marks[0], marks[1]
         else:
             return marks[1], marks[0]
@@ -40,8 +40,8 @@ def main():
 
     # Create players
     human_mark, bot_mark = choose_mark()
-    bot = Player(bot=True, state=BOT_STATE, sign=bot_mark)
-    human = Player(bot=False, state=PLAYER_STATE, sign=human_mark)
+    bot = Player(bot=True, state=BOT_STATE, mark=bot_mark)
+    human = Player(bot=False, state=PLAYER_STATE, mark=human_mark)
 
     # Random starting player
     players = [human, bot]
