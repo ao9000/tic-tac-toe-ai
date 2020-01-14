@@ -1,34 +1,35 @@
 from math import inf
 from copy import deepcopy
 from board import BOT_STATE, PLAYER_STATE, BLANK_STATE, win_check
+import positions
 
 
-def heuristic_evaluation(board):
+def heuristic_evaluation(board, depth):
     # Straight row win
     for row in board:
         if all(box == PLAYER_STATE for box in row):
-            return -10
+            return -10 + depth
         elif all(box == BOT_STATE for box in row):
-            return 10
+            return +10 - depth
 
     # Vertical column win
     for col in zip(*board):
         if all(box == PLAYER_STATE for box in col):
-            return -10
+            return -10 + depth
         elif all(box == BOT_STATE for box in col):
-            return 10
+            return +10 - depth
 
     # Diagonal win \ type
     if all([board[index][index] == PLAYER_STATE for index in range(len(board))]):
-        return -10
+        return -10 + depth
     elif all([board[index][index] == BOT_STATE for index in range(len(board))]):
-        return 10
+        return +10 - depth
 
     # Diagonal win / type
     if all([board[index][-(index + 1)] == PLAYER_STATE for index in range(len(board))]):
-        return -10
+        return -10 + depth
     elif all([board[index][-(index + 1)] == BOT_STATE for index in range(len(board))]):
-        return 10
+        return +10 - depth
 
     # No winners or draw
     return 0
@@ -57,7 +58,7 @@ def get_depth(board):
     # Loop board
     for row in board:
         for box in row:
-            if box == BLANK_STATE:
+            if box != BLANK_STATE:
                 depth += 1
 
     return depth
@@ -65,8 +66,8 @@ def get_depth(board):
 
 def minimax(board, depth, is_maximizing_player):
     # Check if last node
-    if win_check(board) or depth == 0:
-        return heuristic_evaluation(board), None
+    if win_check(board) or depth == 9:
+        return heuristic_evaluation(board, depth), None
 
     best_move = ()
 
@@ -75,7 +76,7 @@ def minimax(board, depth, is_maximizing_player):
 
         # Loop possible moves in a single turn
         for branch, move in zip(*get_possible_branches(board, True)):
-            score, _ = minimax(branch, depth - 1, False)
+            score, _ = minimax(branch, depth + 1, False)
 
             if score > max_score:
                 max_score = score
@@ -87,36 +88,10 @@ def minimax(board, depth, is_maximizing_player):
 
         # Loop possible moves in a single turn
         for branch, move in zip(*get_possible_branches(board, False)):
-            score, _ = minimax(branch, depth - 1, True)
+            score, _ = minimax(branch, depth + 1, True)
 
             if score < min_score:
                 min_score = score
                 best_move = move
 
         return min_score, best_move
-
-# def minimax(board, depth, is_maximizing_player):
-#     # Check if last node
-#     if win_check(board) or depth == 0:
-#         return heuristic_evaluation(board)
-#
-#     if is_maximizing_player:
-#         max_score = -inf
-#
-#         # Loop possible moves in a single turn
-#         for branch, move in zip(*get_possible_branches(board, True)):
-#             score = minimax(branch, depth - 1, False)
-#
-#             max_score = max(max_score, score)
-#
-#         return max_score
-#     else:
-#         min_score = +inf
-#
-#         # Loop possible moves in a single turn
-#         for branch, move in zip(*get_possible_branches(board, False)):
-#             score = minimax(branch, depth - 1, True)
-#
-#             min_score = min(min_score, score)
-#
-#         return min_score
