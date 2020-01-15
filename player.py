@@ -1,4 +1,5 @@
 from minimax import minimax, get_depth
+import random
 
 
 class Player:
@@ -27,7 +28,8 @@ class Player:
     def make_move(self, board):
         if self.bot:
             # Minimax algorithm
-            _, move = minimax(board, get_depth(board), True)
+            _, moves = minimax(board, get_depth(board), True)
+            move = random.choice(moves)
         else:
             # Prompt the user to select a move
             index = input("Enter move: ")

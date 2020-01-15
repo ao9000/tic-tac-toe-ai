@@ -1,7 +1,6 @@
 from math import inf
 from copy import deepcopy
 from board import BOT_STATE, PLAYER_STATE, BLANK_STATE, win_check
-import positions
 
 
 def heuristic_evaluation(board, depth):
@@ -69,7 +68,7 @@ def minimax(board, depth, is_maximizing_player):
     if win_check(board) or depth == 9:
         return heuristic_evaluation(board, depth), None
 
-    best_move = ()
+    best_move = []
 
     if is_maximizing_player:
         max_score = -inf
@@ -80,7 +79,9 @@ def minimax(board, depth, is_maximizing_player):
 
             if score > max_score:
                 max_score = score
-                best_move = move
+                best_move = [move]
+            elif score == max_score:
+                best_move.append(move)
 
         return max_score, best_move
     else:
@@ -92,6 +93,8 @@ def minimax(board, depth, is_maximizing_player):
 
             if score < min_score:
                 min_score = score
-                best_move = move
+                best_move = [move]
+            elif score == min_score:
+                best_move.append(move)
 
         return min_score, best_move
