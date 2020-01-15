@@ -68,7 +68,7 @@ def minimax(board, depth, is_maximizing_player):
     if win_check(board) or depth == 9:
         return heuristic_evaluation(board, depth), None
 
-    best_move = []
+    best_moves = []
 
     if is_maximizing_player:
         max_score = -inf
@@ -79,11 +79,11 @@ def minimax(board, depth, is_maximizing_player):
 
             if score > max_score:
                 max_score = score
-                best_move = [move]
+                best_moves = [move]
             elif score == max_score:
-                best_move.append(move)
+                best_moves.append(move)
 
-        return max_score, best_move
+        return max_score, best_moves
     else:
         min_score = +inf
 
@@ -93,8 +93,8 @@ def minimax(board, depth, is_maximizing_player):
 
             if score < min_score:
                 min_score = score
-                best_move = [move]
+                best_moves = [move]
             elif score == min_score:
-                best_move.append(move)
+                best_moves.append(move)
 
-        return min_score, best_move
+        return min_score, best_moves
