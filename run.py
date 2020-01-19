@@ -1,6 +1,6 @@
 import random
 from player import Player
-from board import create_board, PLAYER_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
+from board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
 
 
 def choose_mark():
@@ -41,7 +41,7 @@ def main():
     # Create players
     human_mark, bot_mark = choose_mark()
     bot = Player(bot=True, state=BOT_STATE, mark=bot_mark)
-    human = Player(bot=False, state=PLAYER_STATE, mark=human_mark)
+    human = Player(bot=False, state=HUMAN_STATE, mark=human_mark)
 
     # Random starting player
     players = [human, bot]

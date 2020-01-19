@@ -1,31 +1,31 @@
 from math import inf
 from copy import deepcopy
-from board import BOT_STATE, PLAYER_STATE, BLANK_STATE, win_check
+from board import BOT_STATE, HUMAN_STATE, BLANK_STATE, win_check
 
 
 def heuristic_evaluation(board, depth):
     # Straight row win
     for row in board:
-        if all(box == PLAYER_STATE for box in row):
+        if all(box == HUMAN_STATE for box in row):
             return -10 + depth
         elif all(box == BOT_STATE for box in row):
             return +10 - depth
 
     # Vertical column win
     for col in zip(*board):
-        if all(box == PLAYER_STATE for box in col):
+        if all(box == HUMAN_STATE for box in col):
             return -10 + depth
         elif all(box == BOT_STATE for box in col):
             return +10 - depth
 
     # Diagonal win \ type
-    if all([board[index][index] == PLAYER_STATE for index in range(len(board))]):
+    if all([board[index][index] == HUMAN_STATE for index in range(len(board))]):
         return -10 + depth
     elif all([board[index][index] == BOT_STATE for index in range(len(board))]):
         return +10 - depth
 
     # Diagonal win / type
-    if all([board[index][-(index + 1)] == PLAYER_STATE for index in range(len(board))]):
+    if all([board[index][-(index + 1)] == HUMAN_STATE for index in range(len(board))]):
         return -10 + depth
     elif all([board[index][-(index + 1)] == BOT_STATE for index in range(len(board))]):
         return +10 - depth
@@ -46,7 +46,7 @@ def get_possible_branches(board, is_maximizing_player):
 
                 # Create alternate branches
                 branches.append(deepcopy(board))
-                branches[-1][row][box] = BOT_STATE if is_maximizing_player else PLAYER_STATE
+                branches[-1][row][box] = BOT_STATE if is_maximizing_player else HUMAN_STATE
 
     return branches, moves
 

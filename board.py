@@ -2,7 +2,7 @@ import numpy as np
 from copy import deepcopy
 
 BLANK_STATE = 0
-PLAYER_STATE = 1
+HUMAN_STATE = 1
 BOT_STATE = 2
 
 
@@ -25,21 +25,21 @@ def get_possible_moves(board):
 def win_check(board):
     # Straight row win
     for row in board:
-        if all(box == PLAYER_STATE for box in row) or all(box == BOT_STATE for box in row):
+        if all(box == HUMAN_STATE for box in row) or all(box == BOT_STATE for box in row):
             return True
 
     # Vertical column win
     for col in zip(*board):
-        if all(box == PLAYER_STATE for box in col) or all(box == BOT_STATE for box in col):
+        if all(box == HUMAN_STATE for box in col) or all(box == BOT_STATE for box in col):
             return True
 
     # Diagonal win \ type
-    if all([board[index][index] == PLAYER_STATE for index in range(len(board))]) or \
+    if all([board[index][index] == HUMAN_STATE for index in range(len(board))]) or \
             all([board[index][index] == BOT_STATE for index in range(len(board))]):
         return True
 
     # Diagonal win / type
-    if all([board[index][-(index+1)] == PLAYER_STATE for index in range(len(board))]) or \
+    if all([board[index][-(index+1)] == HUMAN_STATE for index in range(len(board))]) or \
             all([board[index][-(index+1)] == BOT_STATE for index in range(len(board))]):
         return True
 
@@ -61,8 +61,8 @@ def display_board(board, players):
     # Loop board
     for row_index, row in enumerate(board, start=0):
         for box_index, box in enumerate(row, start=0):
-            if box == PLAYER_STATE:
-                board_copy[row_index][box_index] = next(player.mark for player in players if player.state == PLAYER_STATE)
+            if box == HUMAN_STATE:
+                board_copy[row_index][box_index] = next(player.mark for player in players if player.state == HUMAN_STATE)
             elif box == BOT_STATE:
                 board_copy[row_index][box_index] = next(player.mark for player in players if player.state == BOT_STATE)
             else:
