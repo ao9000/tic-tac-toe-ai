@@ -63,6 +63,15 @@ def get_depth(board):
     return depth
 
 
+def get_winner_from_score(score):
+    if score > 0:
+        return "bot"
+    elif score < 0:
+        return "human"
+    else:
+        return None
+
+
 def minimax(board, depth, is_maximizing_player):
     # Check if last node
     if win_check(board) or depth == 9:
@@ -96,5 +105,50 @@ def minimax(board, depth, is_maximizing_player):
                 best_moves = [move]
             elif score == min_score:
                 best_moves.append(move)
+
+        return min_score, best_moves
+
+
+def minimax_alpha_beta(board, depth, is_maximizing_player, alpha, beta):
+    # Check if leaf node
+    if win_check(board) or depth == 9:
+        return heuristic_evaluation(board, depth), None
+
+    best_moves = None
+
+    if is_maximizing_player:
+        max_score = -inf
+
+        # Loop possible moves in a single turn
+        for branch, move in zip(*get_possible_branches(board, True)):
+            score, _ = minimax_alpha_beta(branch, depth + 1, False, alpha, beta)
+
+            if score > max_score:
+                max_score = score
+                best_moves = [move]
+
+            # Alpha beta pruning
+            alpha = max(alpha, score)
+            if beta <= alpha:
+                break
+
+        return max_score, best_moves
+    else:
+        min_score = +inf
+
+        # Loop possible moves in a single turn
+        for branch, move in zip(*get_possible_branches(board, False)):
+            score, _ = minimax_alpha_beta(branch, depth + 1, True, alpha, beta)
+
+            if score < min_score:
+                min_score = score
+                best_moves = [move]
+            elif score == min_score:
+                best_moves.append(move)
+
+            # Alpha beta pruning
+            beta = min(beta, score)
+            if beta <= alpha:
+                break
 
         return min_score, best_moves
