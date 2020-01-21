@@ -4,7 +4,7 @@ import statistics
 
 def print_stats(title, time):
     print(title)
-    print("Minimum time: {}, Average time: {}\n".format(round(min(time), 2), round(statistics.mean(time)), 2))
+    print("Minimum time: {:.2f}, Average time: {:.2f}\n".format(min(time), statistics.mean(time)))
 
 
 import_setup = """
