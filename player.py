@@ -1,5 +1,6 @@
-from minimax import minimax, get_depth
+from minimax import minimax, minimax_soft_alpha_beta, get_depth
 import random
+from math import inf
 
 
 class Player:
@@ -28,7 +29,7 @@ class Player:
     def make_move(self, board):
         if self.bot:
             # Minimax algorithm
-            _, moves = minimax(board, get_depth(board), True)
+            _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
             move = random.choice(moves)
         else:
             # Prompt the user to select a move
