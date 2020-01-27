@@ -9,15 +9,17 @@ def print_stats(title, time):
 
 import_setup = """
 from minimax import minimax, minimax_alpha_beta, minimax_soft_alpha_beta, get_depth
-from tests import positions
+from board import create_board
 from math import inf
+
+board = create_board()
 """
 
-test_minimax = "minimax(positions.blank_board, get_depth(positions.blank_board), True)"
+test_minimax = "minimax(board, get_depth(board), True)"
 
-test_minimax_alpha_beta = "minimax_alpha_beta(positions.blank_board, get_depth(positions.blank_board), True, -inf, +inf)"
+test_minimax_alpha_beta = "minimax_alpha_beta(board, get_depth(board), True, -inf, +inf)"
 
-test_minimax_soft_alpha_beta = "minimax_soft_alpha_beta(positions.blank_board, get_depth(positions.blank_board), True, -inf, +inf)"
+test_minimax_soft_alpha_beta = "minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)"
 
 
 def main():
