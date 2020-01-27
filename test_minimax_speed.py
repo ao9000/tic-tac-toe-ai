@@ -23,15 +23,15 @@ test_minimax_soft_alpha_beta = "minimax_soft_alpha_beta(positions.blank_board, g
 def main():
     # Just minimax
     time = timeit.Timer(test_minimax, setup=import_setup).repeat(10, 1)
-    print_stats("Just minimax results", time)
+    print_stats("Pure minimax", time)
 
     # Minimax with alpha beta pruning
     time = timeit.Timer(test_minimax_alpha_beta, setup=import_setup).repeat(10, 1)
-    print_stats("Minimax with alpha-beta pruning", time)
+    print_stats("Alpha-beta pruning", time)
 
     # Minimax with soft alpha beta pruning
     time = timeit.Timer(test_minimax_soft_alpha_beta, setup=import_setup).repeat(10, 1)
-    print_stats("Minimax with soft alpha-beta pruning", time)
+    print_stats("Soft alpha-beta pruning", time)
 
 
 if __name__ == '__main__':
