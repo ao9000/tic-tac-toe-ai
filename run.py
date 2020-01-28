@@ -7,16 +7,16 @@ def choose_mark():
     """
     Prompts the user to enter their mark. (Noughts or crosses) (X or O)
 
-    :return: The human's mark followed by bot's mark
+    :return: type: tuple if valid, function call if not valid
+    The human player's mark followed by bot's mark
     """
-
     # Get user input for customization
     marks = ["X", "O"]
-    human_mark = str(input("Choose a mark {}: ".format(marks))).upper()
+    human_mark = str(input("\nChoose a mark {}: ".format(marks))).upper()
 
     # Integrity check for valid mark
     if human_mark not in marks:
-        # Invalid, call function again
+        # Invalid response, call function again
         print("Invalid mark")
         return choose_mark()
     else:
@@ -28,10 +28,10 @@ def choose_mark():
 
 
 def main():
-    """The main function of the application. Creates the board, players and turn
-    system.
     """
-
+    The main function of the application.
+    Creates the board, players and loop their turns infinitely until a winner is found.
+    """
     # Introduction
     print("Welcome to the game of Tic Tac Toe, your opponent is a bot running the Minimax algorithm")
 
