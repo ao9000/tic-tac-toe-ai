@@ -25,6 +25,7 @@ def get_possible_moves(board):
 
     :return: type: list
     A list of available moves indexes (BLANK_STATE indexes)
+    Move indexes are in numpy array format (<row_index>, <column_index>)
     """
     moves = list()
 
@@ -130,6 +131,7 @@ def update_board(board, move, player):
 
     :param move: type: tuple or list
     Contain the column and row index of the selected move
+    Selected move index is in numpy array format (<row_index>, <column_index>)
 
     :param player: type: player class instance
     The class instance of the player who is making the move (Bot or Human instance)

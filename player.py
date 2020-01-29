@@ -1,17 +1,45 @@
-from minimax import minimax, minimax_soft_alpha_beta, get_depth
+from minimax import minimax_soft_alpha_beta, get_depth
 import random
 from math import inf
 
 
 class Player:
+    """
+    Player class
+
+    A player can be a human or bot.
+    """
     def __init__(self, bot, state, mark):
+        """
+        Constructor for Person class.
+
+        :param bot: type: bool
+        True if the player is a bot, else False for human player
+
+        :param state: type: int
+        Integer representing the player's state (0 or 1 or 2)
+        0 - BLANK_STATE
+        1 - HUMAN_STATE
+        2 - BOT_STATE
+
+        :param mark: type: str
+        String representing the player's mark. (Noughts or crosses) (X or O)
+        """
         self.bot = bot
         self.state = state
         self.mark = mark
-        self.name = "Bot" if self.bot else "Human"
 
     @staticmethod
     def convert_index_to_move(index):
+        """
+        Converts user input index (1-9) into move indexes. (<row_index>, <column_index>)
+
+        :param index: type: int
+        User input selected move index (1-9)
+
+        :return: type: tuple
+        Selected move index in numpy array format (<row_index>, <column_index>)
+        """
         index_to_move_dict = {
             1: (0, 0),
             2: (0, 1),
@@ -27,6 +55,16 @@ class Player:
         return index_to_move_dict[index]
 
     def make_move(self, board):
+        """
+        Calls the minimax algorithm if the player is a bot, else request user input for human player.
+
+        :param board: type: numpy.ndarray
+        The current state of the Tic Tac Toe board game
+        Input for the minimax algorithm to find the optimal move
+
+        :return: type: tuple
+        Selected move index in numpy array format (<row_index>, <column_index>)
+        """
         if self.bot:
             # Minimax algorithm
             _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)

@@ -56,7 +56,7 @@ def main():
             display_board(board, players)
 
             if win_check(board):
-                print("Game over. {} wins!".format(player.name))
+                print("Game over. {} wins!".format("Bot" if player.bot else "Human"))
                 return
             elif is_board_full(board):
                 print("Game over. Draw!")
