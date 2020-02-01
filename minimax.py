@@ -1,3 +1,19 @@
+"""
+    Minimax is a artificial intelligence that uses recursion to create a decision tree that lists all of the
+    possible moves of each turn, scores each move and finally selects the move with the best score for the player.
+
+    Minimax assumes both players will play perfectly each time. Therefore, if the human player ever make a mistake,
+    the human player will lose.
+
+    Minimax concept:
+    There are two type of players in the decision tree, a minimizing player and maximizing player. The minimizing player
+    wants to get the lowest possible score possible while the maximizing player wants to get the highest possible score.
+
+    Since minimax runs through all of the possibilities in a decision tree, the time taken to map and account for all of
+    the possible moves is significant. Alpha beta pruning is used to skip calculating links in the decision tree that
+    do not affect the outcome of the results.
+"""
+
 from math import inf
 from copy import deepcopy
 from board import BOT_STATE, HUMAN_STATE, BLANK_STATE, win_check
@@ -126,6 +142,24 @@ def get_winner_from_score(score):
 
 
 def minimax(board, depth, is_maximizing_player):
+    """
+    Using minimax algorithm to find the optimal move for the current state of the game.
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :param depth: type: int
+    How deep the decision tree to search
+    The depth at the top of the tree is 0, as you go deeper, depth increases
+    Maximum depth is 9, as Tic Tact Toe only have 9 moves available
+
+    :param is_maximizing_player: type: bool
+    True if maximizing player's turn (Bot)
+    False if minimizing player's turn (Human)
+
+    :return: type: tuple
+    Contains the best minimax score and a list of moves that is derived from that score
+    """
     # Check if last node
     if win_check(board) or depth == 9:
         return heuristic_evaluation(board, depth), None
@@ -163,6 +197,27 @@ def minimax(board, depth, is_maximizing_player):
 
 
 def minimax_soft_alpha_beta(board, depth, is_maximizing_player, alpha, beta):
+    """
+    Using minimax algorithm to find the optimal move for the current state of the game.
+
+    This version of the minimax algorithm includes a soft alpha beta pruning. The soft pruning only prunes values that
+    are absolutely not possible to make any impact in the results.
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :param depth: type: int
+    How deep the decision tree to search
+    The depth at the top of the tree is 0, as you go deeper, depth increases
+    Maximum depth is 9, as Tic Tact Toe only have 9 moves available
+
+    :param is_maximizing_player: type: bool
+    True if maximizing player's turn (Bot)
+    False if minimizing player's turn (Human)
+
+    :return: type: tuple
+    Contains the best minimax score and a list of moves that is derived from that score
+    """
     # Check if last node
     if win_check(board) or depth == 9:
         return heuristic_evaluation(board, depth), None
@@ -210,6 +265,28 @@ def minimax_soft_alpha_beta(board, depth, is_maximizing_player, alpha, beta):
 
 
 def minimax_alpha_beta(board, depth, is_maximizing_player, alpha, beta):
+    """
+    Using minimax algorithm to find the optimal move for the current state of the game.
+
+    This version of the minimax algorithm includes alpha beta pruning. The pruning prunes all the values that is
+    equal or smaller than the required threshold. Thus, this version can only return 1 move, as the other moves
+    are pruned.
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :param depth: type: int
+    How deep the decision tree to search
+    The depth at the top of the tree is 0, as you go deeper, depth increases
+    Maximum depth is 9, as Tic Tact Toe only have 9 moves available
+
+    :param is_maximizing_player: type: bool
+    True if maximizing player's turn (Bot)
+    False if minimizing player's turn (Human)
+
+    :return: type: tuple
+    Contains the best minimax score and a single move that is derived from that score
+    """
     # Check if leaf node
     if win_check(board) or depth == 9:
         return heuristic_evaluation(board, depth), None
