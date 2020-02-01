@@ -1,7 +1,7 @@
-from minimax import minimax, minimax_soft_alpha_beta, minimax_alpha_beta, get_depth
+from bot.minimax import minimax, minimax_soft_alpha_beta, minimax_alpha_beta, get_depth
 from tests import get_all_possible_board_states
 from math import inf
-from board import HUMAN_STATE, BOT_STATE, create_board
+from game.board import HUMAN_STATE, BOT_STATE, create_board
 
 
 def test_blank_board():

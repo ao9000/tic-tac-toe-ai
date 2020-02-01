@@ -16,7 +16,7 @@
 
 from math import inf
 from copy import deepcopy
-from board import BOT_STATE, HUMAN_STATE, BLANK_STATE, win_check
+from game.board import BOT_STATE, HUMAN_STATE, BLANK_STATE, win_check
 
 
 def heuristic_evaluation(board, depth):

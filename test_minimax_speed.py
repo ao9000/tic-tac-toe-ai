@@ -8,8 +8,8 @@ def print_stats(title, time):
 
 
 import_setup = """
-from minimax import minimax, minimax_alpha_beta, minimax_soft_alpha_beta, get_depth
-from board import create_board
+from bot.minimax import minimax, minimax_alpha_beta, minimax_soft_alpha_beta, get_depth
+from game.board import create_board
 from math import inf
 
 board = create_board()

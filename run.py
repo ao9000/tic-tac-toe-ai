@@ -1,6 +1,6 @@
 import random
-from player import Player
-from board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
+from game.player import Player
+from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board
 
 
 def choose_mark():

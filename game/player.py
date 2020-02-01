@@ -1,4 +1,4 @@
-from minimax import minimax_soft_alpha_beta, get_depth
+from bot.minimax import minimax_soft_alpha_beta, get_depth
 import random
 from math import inf
 

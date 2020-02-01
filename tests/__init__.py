@@ -1,8 +1,8 @@
-from board import create_board, get_possible_moves
+from game.board import create_board, get_possible_moves
 from copy import deepcopy
 from itertools import combinations
 from math import floor, ceil
-from board import win_check
+from game.board import win_check
 
 
 def get_all_possible_board_states(turn_num, primary_state, secondary_state):
