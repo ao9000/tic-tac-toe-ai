@@ -25,9 +25,21 @@ class Player:
         :param mark: type: str
         String representing the player's mark. (Noughts or crosses) (X or O)
         """
-        self.bot = bot
-        self.state = state
-        self.mark = mark
+        self._bot = bot
+        self._state = state
+        self._mark = mark
+
+    @property
+    def bot(self):
+        return self._bot
+
+    @property
+    def state(self):
+        return self._state
+
+    @property
+    def mark(self):
+        return self._mark
 
     @staticmethod
     def convert_index_to_move(index):
@@ -65,7 +77,7 @@ class Player:
         :return: type: tuple
         Selected move index in numpy array format (<row_index>, <column_index>)
         """
-        if self.bot:
+        if self._bot:
             # Minimax algorithm
             _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
             move = random.choice(moves)
