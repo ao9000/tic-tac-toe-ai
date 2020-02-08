@@ -20,11 +20,11 @@ def choose_mark():
         print("Invalid mark")
         return choose_mark()
     else:
-        # Valid, return human mark & bot mark
-        if human_mark == marks[0]:
-            return marks[0], marks[1]
-        else:
-            return marks[1], marks[0]
+        # Valid
+        # Removes human mark from list, leaving only bot mark
+        marks.remove(human_mark)
+        # Return human mark & bot mark
+        return human_mark, marks[0]
 
 
 def main():
@@ -50,17 +50,16 @@ def main():
     # Loop turns
     while True:
         for player in players:
-            print("\n{}'s turn".format("Bot" if player.bot else "Human"))
+            print("\n{}'s turn".format(player_name := "Bot" if player.bot else "Human"))
             move = player.make_move(board)
             board = update_board(board, move, player)
             display_board(board, players)
 
+            # Break infinite loop under conditions
             if win_check(board):
-                print("Game over. {} wins!".format("Bot" if player.bot else "Human"))
-                return
+                return print("Game over. {} wins!".format(player_name))
             elif is_board_full(board):
-                print("Game over. Draw!")
-                return
+                return print("Game over. Draw!")
 
 
 if __name__ == '__main__':
