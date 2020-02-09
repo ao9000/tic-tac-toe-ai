@@ -1,8 +1,9 @@
 import pygame
 from game_interface.color import color_to_rgb
+from game_interface.pygame_class.rect import Rect
 
 
-class Textbox:
+class Textbox(Rect):
     def __init__(self, text, text_color, font_name, font_size, x, y):
         self._text = text
         self._text_color = color_to_rgb(text_color)
@@ -39,25 +40,3 @@ class Textbox:
 
         # Render surface to screen & define rect
         self._rect = screen.blit(text, (self._x - (text.get_width() // 2), self._y - (text.get_height() // 2)))
-
-    def is_mouse_hover(self):
-        # Get mouse position
-        mouse_position = pygame.mouse.get_pos()
-
-        # Check if mouse pos intersect
-        if self._rect.collidepoint(mouse_position):
-            return True
-
-        return False
-
-    def is_clicked_on(self, event):
-        # Get mouse position (x,y)
-        mouse_position = pygame.mouse.get_pos()
-
-        # Get mouse events
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            # Check if mouse pos intersect
-            if self._rect.collidepoint(mouse_position):
-                return True
-
-        return False

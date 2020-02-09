@@ -1,8 +1,9 @@
 import pygame
 from game_interface.color import color_to_rgb
+from game_interface.pygame_class.rect import Rect
 
 
-class Line:
+class Line(Rect):
     def __init__(self, color, start_pos, end_pos, line_width=1):
         self._color = color_to_rgb(color)
         self._start_pos = start_pos
