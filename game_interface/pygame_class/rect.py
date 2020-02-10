@@ -12,6 +12,14 @@ class Rect:
     def rect(self):
         return self._rect
 
+    @property
+    def left_top(self):
+        return self._left_top
+
+    @property
+    def width_height(self):
+        return self._width_height
+
     def is_mouse_hover(self):
         # Get mouse position (x,y)
         mouse_position = pygame.mouse.get_pos()
