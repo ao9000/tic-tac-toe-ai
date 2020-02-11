@@ -136,7 +136,7 @@ def update_board(board, move, player):
     :param player: type: player class instance
     The class instance of the player who is making the move (Bot or Human instance)
 
-    :return: type: numpy.ndarray if valid, else function call
+    :return: type: function
     Returns updated board if valid, else calls itself
     """
     # Check if the selected move is valid (BLANK_STATE)
@@ -147,5 +147,3 @@ def update_board(board, move, player):
         # Invalid move, prompt the user to select a move again
         print("Invalid move, please re-enter move...")
         return update_board(board, player.make_move(board), player)
-
-    return board

@@ -52,7 +52,7 @@ def main():
         for player in players:
             print("\n{}'s turn".format(player_name := "Bot" if player.bot else "Human"))
             move = player.make_move(board)
-            board = update_board(board, move, player)
+            update_board(board, move, player)
             display_board(board, players)
 
             # Break infinite loop under conditions
