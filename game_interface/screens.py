@@ -1,7 +1,6 @@
-import pygame
 from game_interface.pygame_class.textbox import Textbox
 from game_interface.pygame_class.line import Line
-from game_interface.helper_functions import get_board_rect_objects, render_move_state_on_board
+from game_interface.helper_functions import render_move_state_on_board
 
 
 # Screen definitions
@@ -52,7 +51,7 @@ def draw_selection_screen(screen, event):
     return None, None
 
 
-def draw_board(screen, event, board):
+def draw_board(screen, board):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
@@ -72,17 +71,14 @@ def draw_board(screen, event, board):
     for line in board_lines:
         line.draw_to_screen(screen)
 
-    # Print updated states
+    # Print updated states on board
     render_move_state_on_board(screen, board)
 
-    # Get box coordinates/positions
-    board_box_positions_range = get_board_rect_objects(width, height)
 
-    # Check intersect, human move
-    for row in range(0, 3):
-        for box in range(0, 3):
-            if board_box_positions_range[row][box].is_clicked_on(event):
-                print(row, box)
-                return row, box
+def draw_results(screen, player):
+    # Get screen size
+    width, height = screen.get_width(), screen.get_height()
 
-    return None, None
+    # Display winner
+    Textbox("{} wins!".format("Bot" if player.bot else "Human"), "black", "freesans", 64, (width * 1 / 2),
+            (height * 1 / 2)).draw_to_screen(screen)
