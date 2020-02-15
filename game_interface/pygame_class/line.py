@@ -11,5 +11,13 @@ class Line(Rect):
         self._line_width = line_width
         self._rect = None
 
+    @property
+    def start_pos(self):
+        return self._start_pos
+
+    @property
+    def end_pos(self):
+        return self._end_pos
+
     def draw_to_screen(self, screen):
         self._rect = pygame.draw.line(screen, self._color, self._start_pos, self._end_pos, self._line_width)
