@@ -1,10 +1,12 @@
 from game_interface.pygame_class.textbox import Textbox
 from game_interface.pygame_class.line import Line
-from game_interface.helper_functions import render_move_state_on_board
+from game_interface.helper_functions import render_states_on_board, get_board_line_objects
+from game.board import win_check, is_board_full, BLANK_STATE, BOT_STATE, HUMAN_STATE
+from game.player import Player
 
 
 # Screen definitions
-def draw_selection_screen(screen, event):
+def draw_selection_screen(screen, event, players):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
@@ -36,9 +38,13 @@ def draw_selection_screen(screen, event):
         cross.draw_to_screen(screen)
 
         if x.is_clicked_on(event) or cross.is_clicked_on(event):
-            return "X", "O"
+            # Create players
+            bot = Player(bot=True, state=BOT_STATE, mark="O")
+            human = Player(bot=False, state=HUMAN_STATE, mark="X")
+            players.append(bot)
+            players.append(human)
 
-    if o.is_mouse_hover() or nought.is_mouse_hover():
+    elif o.is_mouse_hover() or nought.is_mouse_hover():
         o.text_color = "blue"
         o.draw_to_screen(screen)
 
@@ -46,39 +52,41 @@ def draw_selection_screen(screen, event):
         nought.draw_to_screen(screen)
 
         if o.is_clicked_on(event) or nought.is_clicked_on(event):
-            return "O", "X"
+            # Create players
+            bot = Player(bot=True, state=BOT_STATE, mark="X")
+            human = Player(bot=False, state=HUMAN_STATE, mark="O")
+            players.append(bot)
+            players.append(human)
 
-    return None, None
+
+def draw_board_information(screen, player):
+    # Get screen size
+    width, height = screen.get_width(), screen.get_height()
+
+    # Text to show whose turn it is
+    Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "freesans", 12, (width * 1 / 2), (height * 1 / 20)).draw_to_screen(screen)
 
 
 def draw_board(screen, board):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
-    # Define board lines
-    board_lines = [
-        # First horizontal line
-        Line("black", (0, height * (1 / 3)), (width, height * (1 / 3)), 3),
-        # Second horizontal line
-        Line("black", (0, height * (2 / 3)), (width, height * (2 / 3)), 3),
-        # First vertical line
-        Line("black", (width * (1 / 3), 0), (width * (1 / 3), height), 3),
-        # Second vertical line
-        Line("black", (width * (2 / 3), 0), (width * (2 / 3), height), 3)
-    ]
-
     # Draw to screen
-    for line in board_lines:
+    for line in get_board_line_objects(width, height):
         line.draw_to_screen(screen)
 
     # Print updated states on board
-    render_move_state_on_board(screen, board)
+    render_states_on_board(screen, board)
 
 
-def draw_results(screen, player):
+def draw_results(screen, board, player):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
-    # Display winner
-    Textbox("{} wins!".format("Bot" if player.bot else "Human"), "black", "freesans", 64, (width * 1 / 2),
-            (height * 1 / 2)).draw_to_screen(screen)
+    if win_check(board):
+        # Display winner
+        Textbox("{} wins!".format("Bot" if player.bot else "Human"), "black", "freesans", 64, (width * 1 / 2),
+                (height * 1 / 2)).draw_to_screen(screen)
+    else:
+        # Draw
+        Textbox("Draw!", "black", "freesans", 64, (width * 1 / 2), (height * 1 / 2)).draw_to_screen(screen)

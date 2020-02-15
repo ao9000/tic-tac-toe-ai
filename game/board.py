@@ -72,6 +72,26 @@ def win_check(board):
     return False
 
 
+def get_turn_number(board):
+    """
+    Calculates the total number of moves on the board. The number of moves on the board is the same as the turn number
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :return: type: int
+    The number of moves on the board or the turn number
+    """
+    num_moves = 0
+
+    for row in board:
+        for box in row:
+            if box != BLANK_STATE:
+                num_moves += 1
+
+    return num_moves
+
+
 def is_board_full(board):
     """
     Check if the board is full, where no moves are available. (Terminal state)

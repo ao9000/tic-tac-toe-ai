@@ -2,43 +2,58 @@
 import pygame
 import sys
 from game_interface.color import color_to_rgb
-from game_interface.screens import draw_board, draw_selection_screen, draw_results
+from game_interface.screens import draw_board, draw_selection_screen, draw_board_information
 
 # Game logic imports
 import random
-from game.player import Player
-from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, update_board
+from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, get_turn_number
 from game_interface.helper_functions import bot_move_handler, human_move_handler
 
+# Define screen size
+width, height = 600, 600
 
-def main():
+# Define FPS
+tick_rate = 30
+
+
+def setup_game():
     # Initialize module
     pygame.init()
 
-    # Define screen size
-    width, height = 600, 600
+    # Define screen dimensions
     screen_size = (width, height)
-
-    # Define & launch screen
     screen = pygame.display.set_mode(screen_size)
 
-    # Game window name
+    # Define game window caption
     pygame.display.set_caption("Tic Tac Toe")
 
-    # Define clock
+    # Define game clock
     clock = pygame.time.Clock()
+    # tick rate
+    clock.tick(tick_rate)
 
-    # Create Tic Tac Toe board
-    board = create_board()
+    return screen, clock
 
+
+def main():
+    # Setup game
+    screen, clock = setup_game()
+
+    # Create list of players
+    players = []
     # Define whose turn
     player = None
+    # Define turn number
+    turn_num = 0
 
-    # Define page states
+    # Define screen states
     intro = True
     game = True
-    result = True
 
+    # Create a blank Tic Tac Toe board
+    board = create_board()
+
+    # Game loop
     while True:
         for event in pygame.event.get():
             # Break loop if window is closed
@@ -52,59 +67,62 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-            # White background/ clear background
+            # White background/clear previous objects
             screen.fill(color_to_rgb("white"))
 
             if intro:
                 # Draw selection screen
-                human_mark, bot_mark = draw_selection_screen(screen, event)
+                draw_selection_screen(screen, event, players)
 
                 # Proceed to next screen if user selected a choice & assign players
-                if human_mark and bot_mark:
-                    intro = False
-
-                    bot = Player(bot=True, state=BOT_STATE, mark=bot_mark)
-                    human = Player(bot=False, state=HUMAN_STATE, mark=human_mark)
+                if players:
+                    # Unpack players
+                    bot, human = players[0], players[1]
 
                     # Random starting player
-                    player = random.choice([bot, human])
+                    player = random.choice(players)
+
+                    # Move on to game screen
+                    intro = False
             elif game:
+                # Draw board information
+                draw_board_information(screen, player)
+                
                 # Draw tic tac toe board
                 draw_board(screen, board)
 
-                # Prompt to show who starts first
-                pass
+                # Check if game is finished
+                if win_check(board):
+                    # Game is finished
 
-                # Make a move (bot/human)
-                if player.bot:
-                    # Bot turn
-                    move = bot_move_handler(board, player)
+                    # Animation that shows the winning row
+                    pass
+
+                    # Move on to next screen
+                    game = False
+                elif is_board_full(board):
+                    # Draw check
+
+                    # Move on to next screen
+                    game = False
                 else:
-                    # Human turn
-                    move = human_move_handler(board, screen, event, player)
+                    # Not finished
 
-                if move:
-                    # Cycle turns & Update move
-                    update_board(board, move, player)
+                    # Make a move (bot/human)
+                    if player.bot:
+                        # Bot turn
+                        bot_move_handler(board, player)
+                    else:
+                        # Human turn
+                        human_move_handler(board, screen, event, player)
 
-                    # Proceed to next game once winner is found or draw
-                    if win_check(board) or is_board_full(board):
-                        # Animation that shows the winning row
-                        pass
-
-                        # Move on to next screen
-                        game = False
-                        continue
-
-                    player = human if player.bot else bot
-
-            elif result:
-                draw_results(screen, player)
+                    # Cycle turns
+                    if get_turn_number(board) != turn_num:
+                        player = human if player.bot else bot
+                        turn_num = get_turn_number(board)
 
         # Update screen
         pygame.display.update()
-        # How many times to update screen in a second (Tick rate or FPS)
-        clock.tick(20)
 
 
 if __name__ == '__main__':

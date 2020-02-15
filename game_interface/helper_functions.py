@@ -55,7 +55,7 @@ def get_board_rect_objects(width, height):
     return board_box_positions_range
 
 
-def render_move_state_on_board(screen, board):
+def render_states_on_board(screen, board):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
@@ -89,9 +89,8 @@ def human_move_handler(board, screen, event, player):
     for row in range(0, 3):
         for box in range(0, 3):
             if board_box_positions_range[row][box].is_clicked_on(event):
-                return row, box
-
-    return None
+                if board[row][box] == BLANK_STATE:
+                    update_board(board, (row, box), player)
 
 
 def bot_move_handler(board, player):
@@ -99,4 +98,4 @@ def bot_move_handler(board, player):
     _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
     move = random.choice(moves)
 
-    return move
+    update_board(board, move, player)
