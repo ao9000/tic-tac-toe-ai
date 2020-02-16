@@ -6,6 +6,7 @@ from game_interface.screens import draw_board, draw_selection_screen, draw_board
 
 # Game logic imports
 import random
+import time
 from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, get_turn_number
 from game_interface.helper_functions import bot_move_handler, human_move_handler
 
@@ -43,8 +44,18 @@ def main():
     players = []
     # Define whose turn
     player = None
-    # Define turn number
-    turn_num = 0
+
+    # Define stats recording
+    records = {
+        # Record turn number
+        'turn_num': 0,
+        # Record bot wins
+        'bot_win': 0,
+        # Record human wins
+        'human_win': 0,
+        # Record draws
+        'draw': 0
+    }
 
     # Define screen states
     intro = True
@@ -85,8 +96,9 @@ def main():
                     # Move on to game screen
                     intro = False
             elif game:
+
                 # Draw board information
-                draw_board_information(screen, player)
+                draw_board_information(screen, player, records)
                 
                 # Draw tic tac toe board
                 draw_board(screen, board)
@@ -98,13 +110,34 @@ def main():
                     # Animation that shows the winning row
                     pass
 
-                    # Move on to next screen
-                    game = False
+                    # Post game cleanup
+                    # Record win
+                    if player.bot:
+                        records["bot_win"] += 1
+                    else:
+                        records["human_win"] += 1
+
+                    # Clear turn number
+                    records['turn_num'] = 0
+
+                    # Random starting player
+                    player = random.choice(players)
+
+                    # Reset board
+                    board = create_board()
                 elif is_board_full(board):
                     # Draw check
+                    records["draw"] += 1
 
-                    # Move on to next screen
-                    game = False
+                    # Post game cleanup
+                    # Clear turn number
+                    records['turn_num'] = 0
+
+                    # Random starting player
+                    player = random.choice(players)
+
+                    # Reset board
+                    board = create_board()
                 else:
                     # Not finished
 
@@ -117,9 +150,10 @@ def main():
                         human_move_handler(board, screen, event, player)
 
                     # Cycle turns
-                    if get_turn_number(board) != turn_num:
-                        player = human if player.bot else bot
-                        turn_num = get_turn_number(board)
+                    if get_turn_number(board) != records["turn_num"]:
+                        if not win_check(board) and not is_board_full(board):
+                            player = human if player.bot else bot
+                            records["turn_num"] = get_turn_number(board)
 
         # Update screen
         pygame.display.update()

@@ -59,12 +59,24 @@ def draw_selection_screen(screen, event, players):
             players.append(human)
 
 
-def draw_board_information(screen, player):
+def draw_board_information(screen, player, records):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
+    # Text to show number of human wins
+    Textbox("Human wins: {}".format(records['human_win']), "green", "freesans", 12, (width * 1 / 6), (height * 1 / 20)).draw_to_screen(screen)
+
+    # Text to show number of bot wins
+    Textbox("Bot wins: {}".format(records['bot_win']), "green", "freesans", 12, (width * 2 / 6), (height * 1 / 20)).draw_to_screen(screen)
+
     # Text to show whose turn it is
-    Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "freesans", 12, (width * 1 / 2), (height * 1 / 20)).draw_to_screen(screen)
+    Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "freesans", 12, (width * 3 / 6), (height * 1 / 20)).draw_to_screen(screen)
+
+    # Text to show number of draws
+    Textbox("Draws: {}".format(records['draw']), "green", "freesans", 12, (width * 4 / 6), (height * 1 / 20)).draw_to_screen(screen)
+
+    # Text to show turn number
+    Textbox("Turn number: {}".format(records['turn_num']), "green", "freesans", 12, (width * 5 / 6), (height * 1 / 20)).draw_to_screen(screen)
 
 
 def draw_board(screen, board):
