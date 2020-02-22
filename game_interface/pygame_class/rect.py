@@ -20,6 +20,11 @@ class Rect:
     def width_height(self):
         return self._width_height
 
+    def get_middle_point_coordinates(self):
+        # Calculate half width & height
+        half_width_height = (value * (1/2) for value in self._width_height)
+        return tuple(map(sum, zip(self._left_top, half_width_height)))
+
     def is_mouse_hover(self):
         # Get mouse position (x,y)
         mouse_position = pygame.mouse.get_pos()

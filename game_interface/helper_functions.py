@@ -1,7 +1,7 @@
 from game_interface.pygame_class.rect import Rect
 from game_interface.pygame_class.textbox import Textbox
 from game_interface.pygame_class.line import Line
-from game.board import HUMAN_STATE, BOT_STATE, BLANK_STATE
+from game.board import BOT_STATE, BLANK_STATE
 from bot.minimax import minimax_soft_alpha_beta, get_depth
 from math import inf
 from game.board import update_board
@@ -96,6 +96,10 @@ def human_move_handler(board, screen, event, player):
 def bot_move_handler(board, player):
     # Minimax algorithm
     _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
-    move = random.choice(moves)
+    row, box = random.choice(moves)
 
-    update_board(board, move, player)
+    # Random mode
+    # row, box = (random.randint(-1, 2), random.randint(-1, 2))
+
+    if board[row][box] == BLANK_STATE:
+        update_board(board, (row, box), player)

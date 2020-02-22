@@ -2,19 +2,18 @@
 import pygame
 import sys
 from game_interface.color import color_to_rgb
-from game_interface.screens import draw_board, draw_selection_screen, draw_board_information
+from game_interface.screens import draw_board, draw_selection_screen, draw_board_information, highlight_win
 
 # Game logic imports
 import random
-import time
-from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, get_turn_number
+from game.board import create_board, win_check, is_board_full, get_turn_number
 from game_interface.helper_functions import bot_move_handler, human_move_handler
 
 # Define screen size
 width, height = 600, 600
 
 # Define FPS
-tick_rate = 30
+tick_rate = 60
 
 
 def setup_game():
@@ -96,19 +95,21 @@ def main():
                     # Move on to game screen
                     intro = False
             elif game:
-
+                # Game scene
                 # Draw board information
                 draw_board_information(screen, player, records)
-                
+
                 # Draw tic tac toe board
                 draw_board(screen, board)
 
                 # Check if game is finished
                 if win_check(board):
                     # Game is finished
-
-                    # Animation that shows the winning row
-                    pass
+                    # Highlight the winning row
+                    highlight_win(screen, board)
+                    # Refresh screen & add delay
+                    pygame.display.update()
+                    pygame.time.wait(2000)
 
                     # Post game cleanup
                     # Record win
@@ -120,9 +121,6 @@ def main():
                     # Clear turn number
                     records['turn_num'] = 0
 
-                    # Random starting player
-                    player = random.choice(players)
-
                     # Reset board
                     board = create_board()
                 elif is_board_full(board):
@@ -133,14 +131,14 @@ def main():
                     # Clear turn number
                     records['turn_num'] = 0
 
-                    # Random starting player
-                    player = random.choice(players)
+                    # Refresh screen & add delay
+                    pygame.display.update()
+                    pygame.time.wait(2000)
 
                     # Reset board
                     board = create_board()
                 else:
-                    # Not finished
-
+                    # Game not finished
                     # Make a move (bot/human)
                     if player.bot:
                         # Bot turn
