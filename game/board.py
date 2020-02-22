@@ -72,6 +72,39 @@ def win_check(board):
     return False
 
 
+def get_winning_combination_index(board):
+    """
+    Checks the board for any winning combinations and return the index of the winning indexes.
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :return: type: list
+    List of winning indexes
+    """
+    # Straight row win
+    for row_index, row in enumerate(board, start=0):
+        if all(box == HUMAN_STATE for box in row) or all(box == BOT_STATE for box in row):
+            return [(row_index, box_index) for box_index in range(0, 3)]
+
+    # Vertical column win
+    for col_index, col in enumerate(zip(*board), start=0):
+        if all(box == HUMAN_STATE for box in col) or all(box == BOT_STATE for box in col):
+            return [(row_index, col_index) for row_index in range(0, 3)]
+
+    # Diagonal win \ type
+    if all([board[index][index] == HUMAN_STATE for index in range(len(board))]) or \
+            all([board[index][index] == BOT_STATE for index in range(len(board))]):
+        return [(index, index) for index in range(0, 3)]
+
+    # Diagonal win / type
+    if all([board[index][-(index+1)] == HUMAN_STATE for index in range(len(board))]) or \
+            all([board[index][-(index+1)] == BOT_STATE for index in range(len(board))]):
+        return [(row_index, box_index) for row_index, box_index in zip(range(0, 3), reversed(range(0, 3)))]
+
+    return None
+
+
 def get_turn_number(board):
     """
     Calculates the total number of moves on the board. The number of moves on the board is the same as the turn number
