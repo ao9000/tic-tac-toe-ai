@@ -150,6 +150,7 @@ def main():
                     # Cycle turns
                     if get_turn_number(board) != records["turn_num"]:
                         if not win_check(board) and not is_board_full(board):
+                            # Subsequent turns
                             player = human if player.bot else bot
                             records["turn_num"] = get_turn_number(board)
 

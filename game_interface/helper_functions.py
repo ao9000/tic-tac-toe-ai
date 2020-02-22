@@ -95,8 +95,13 @@ def human_move_handler(board, screen, event, player):
 
 def bot_move_handler(board, player):
     # Minimax algorithm
-    _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
-    row, box = random.choice(moves)
+    if all(box == BLANK_STATE for row in board for box in row):
+        # To reduce load, random the first turn for bot
+        row, box = (random.randint(-1, 2), random.randint(-1, 2))
+    else:
+        # Subsequent turn will not take long to calculate
+        _, moves = minimax_soft_alpha_beta(board, get_depth(board), True, -inf, +inf)
+        row, box = random.choice(moves)
 
     # Random mode
     # row, box = (random.randint(-1, 2), random.randint(-1, 2))
