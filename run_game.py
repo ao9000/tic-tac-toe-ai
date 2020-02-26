@@ -50,6 +50,15 @@ def render_items_to_screen(screen, interface_items):
                 value.draw_to_screen(screen)
 
 
+def post_game_delay():
+    # Refresh screen & add delay
+    pygame.display.update()
+    # Caution, when wait is active, event gets stored in a queue waiting to be executed.
+    # This causes some visual input lag. Must clear the event queue after done with pygame.time.wait
+    pygame.time.wait(2000)
+    pygame.event.clear()
+
+
 def main():
     # Setup game
     screen, clock = setup_game()
@@ -136,25 +145,23 @@ def main():
                 # Highlight the winning row
                 interface_items = highlight_win(interface_items, board)
                 render_items_to_screen(screen, interface_items)
-                # Refresh screen & add delay
-                pygame.display.update()
-                # Caution, when wait is active, event gets stored in a queue waiting to be executed.
-                # This causes some visual input lag. Must clear the event queue after done with pygame.time.wait
-                pygame.time.wait(2000)
-                pygame.event.clear()
 
-                # Post game cleanup
+                # Add delay
+                post_game_delay()
+
+                # Record stats
                 record_win(player, records)
 
                 # Reset board
                 board = create_board()
             elif is_board_full(board):
-                record_draw(records)
+                # Game is finished
 
-                # Refresh screen & add delay
-                pygame.display.update()
-                pygame.time.wait(2000)
-                pygame.event.clear()
+                # Add delay
+                post_game_delay()
+
+                # Record stats
+                record_draw(records)
 
                 # Reset board
                 board = create_board()
