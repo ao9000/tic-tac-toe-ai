@@ -2,12 +2,12 @@
 import pygame
 import sys
 from game_interface.color import color_to_rgb
-from game_interface.screens import draw_board, draw_selection_screen, draw_board_information, highlight_win
+from game_interface.templates import game_board, selection_screen, board_information, highlight_win, handle_user_input_selection_screen
 
 # Game logic imports
 import random
 from game.board import create_board, win_check, is_board_full, get_turn_number
-from game_interface.helper_functions import bot_move_handler, human_move_handler
+from game_interface.helper_functions import bot_move_handler, human_move_handler, record_draw, record_win
 
 # Define screen size
 width, height = 600, 600
@@ -33,6 +33,21 @@ def setup_game():
     clock.tick(tick_rate)
 
     return screen, clock
+
+
+def render_items_to_screen(screen, interface_items):
+    exclude_list = [
+        'game_board_rects'
+    ]
+
+    for key, value in interface_items.items():
+        if key not in exclude_list:
+            if isinstance(value, list):
+                for move in value:
+                    if move:
+                        move.draw_to_screen(screen)
+            else:
+                value.draw_to_screen(screen)
 
 
 def main():
@@ -65,6 +80,9 @@ def main():
 
     # Game loop
     while True:
+        mouse_position = pygame.mouse.get_pos()
+        mouse_clicked = False
+
         for event in pygame.event.get():
             # Break loop if window is closed
             if event.type == pygame.QUIT:
@@ -77,82 +95,86 @@ def main():
                     pygame.quit()
                     sys.exit()
 
-            # White background/clear previous objects
-            screen.fill(color_to_rgb("white"))
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_clicked = True
 
-            if intro:
-                # Draw selection screen
-                draw_selection_screen(screen, event, players)
+        # White background/clear previous objects
+        screen.fill(color_to_rgb("white"))
 
-                # Proceed to next screen if user selected a choice & assign players
-                if players:
-                    # Unpack players
-                    bot, human = players[0], players[1]
+        if intro:
+            # Draw selection screen
+            interface_items = selection_screen(screen, mouse_position)
+            render_items_to_screen(screen, interface_items)
 
-                    # Random starting player
-                    player = random.choice(players)
+            # Handle user input
+            if mouse_clicked:
+                handle_user_input_selection_screen(interface_items, players, mouse_position)
 
-                    # Move on to game screen
-                    intro = False
-            elif game:
-                # Game scene
-                # Draw board information
-                draw_board_information(screen, player, records)
+            # Proceed to next screen if user selected a choice & assign players
+            if players:
+                # Unpack players
+                bot, human = players[0], players[1]
 
-                # Draw tic tac toe board
-                draw_board(screen, board)
+                # Random starting player
+                player = random.choice(players)
 
-                # Check if game is finished
-                if win_check(board):
-                    # Game is finished
-                    # Highlight the winning row
-                    highlight_win(screen, board)
-                    # Refresh screen & add delay
-                    pygame.display.update()
-                    pygame.time.wait(2000)
+                # Move on to game screen
+                intro = False
+        elif game:
+            # Game scene
+            # Draw board information
+            interface_items = board_information(screen, player, records)
+            render_items_to_screen(screen, interface_items)
 
-                    # Post game cleanup
-                    # Record win
-                    if player.bot:
-                        records["bot_win"] += 1
-                    else:
-                        records["human_win"] += 1
+            # Draw tic tac toe board
+            interface_items = game_board(screen, board, players)
+            render_items_to_screen(screen, interface_items)
 
-                    # Clear turn number
-                    records['turn_num'] = 0
+            # Check if game is finished
+            if win_check(board):
+                # Game is finished
+                # Highlight the winning row
+                interface_items = highlight_win(interface_items, board)
+                render_items_to_screen(screen, interface_items)
+                # Refresh screen & add delay
+                pygame.display.update()
+                # Caution, when wait is active, event gets stored in a queue waiting to be executed.
+                # This causes some visual input lag. Must clear the event queue after done with pygame.time.wait
+                pygame.time.wait(2000)
+                pygame.event.clear()
 
-                    # Reset board
-                    board = create_board()
-                elif is_board_full(board):
-                    # Draw check
-                    records["draw"] += 1
+                # Post game cleanup
+                record_win(player, records)
 
-                    # Post game cleanup
-                    # Clear turn number
-                    records['turn_num'] = 0
+                # Reset board
+                board = create_board()
+            elif is_board_full(board):
+                record_draw(records)
 
-                    # Refresh screen & add delay
-                    pygame.display.update()
-                    pygame.time.wait(2000)
+                # Refresh screen & add delay
+                pygame.display.update()
+                pygame.time.wait(2000)
+                pygame.event.clear()
 
-                    # Reset board
-                    board = create_board()
+                # Reset board
+                board = create_board()
+            else:
+                # Game not finished
+                # Make a move (bot/human)
+                if player.bot:
+                    # Bot turn
+                    bot_move_handler(board, player)
                 else:
-                    # Game not finished
-                    # Make a move (bot/human)
-                    if player.bot:
-                        # Bot turn
-                        bot_move_handler(board, player)
-                    else:
+                    if mouse_clicked:
                         # Human turn
-                        human_move_handler(board, screen, event, player)
+                        human_move_handler(board, interface_items, mouse_position, human)
 
-                    # Cycle turns
-                    if get_turn_number(board) != records["turn_num"]:
-                        if not win_check(board) and not is_board_full(board):
-                            # Subsequent turns
-                            player = human if player.bot else bot
-                            records["turn_num"] = get_turn_number(board)
+                # Cycle turns
+                if get_turn_number(board) != records["turn_num"]:
+                    if not win_check(board) and not is_board_full(board):
+                        # Subsequent turns
+                        player = human if player.bot else bot
+                        records["turn_num"] = get_turn_number(board)
 
         # Update screen
         pygame.display.update()

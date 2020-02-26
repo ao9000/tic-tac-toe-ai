@@ -25,10 +25,7 @@ class Rect:
         half_width_height = (value * (1/2) for value in self._width_height)
         return tuple(map(sum, zip(self._left_top, half_width_height)))
 
-    def is_mouse_hover(self):
-        # Get mouse position (x,y)
-        mouse_position = pygame.mouse.get_pos()
-
+    def is_mouse_hover(self, mouse_position):
         # Check if mouse pos intersect
         if self._rect.collidepoint(mouse_position):
             return True
