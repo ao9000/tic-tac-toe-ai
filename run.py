@@ -1,3 +1,7 @@
+"""
+    Text based version of tic-tac-toe with minimax algorithm artificial intelligence (AI) game
+"""
+
 import random
 from game.player import Player
 from game.board import create_board, HUMAN_STATE, BOT_STATE, win_check, is_board_full, update_board, display_board

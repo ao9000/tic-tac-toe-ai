@@ -1,3 +1,29 @@
+"""
+    Compares the difference in time taken to run different approaches of the minimax algorithm.
+
+    Minimax without any pruning (Pure minimax):
+    This approach of the minimax algorithm features only itself without any pruning of the branches in the decision tree
+
+    This approach is the slowest compared to the other approaches as it calculates each and every branch possibilities
+    without any pruning to speed up the process.
+
+    Minimax with alpha-beta pruning:
+    This approach of the minimax algorithm features full alpha-beta pruning. Alpha beta pruning is where the pruning of
+    decision tree occurs based on the alpha and beta values. Alpha value is used by the maximizing player while beta
+    value is used by the minimizing player. This approach prunes all the values that is equal or smaller/larger than
+    the required threshold depending on the player.
+
+    This approach is the fastest compared to the other approaches as it only calculates only the first best route and
+    skips the rest of the routes
+
+    Minimax with soft alpha-beta pruning:
+    This approach of the minimax algorithm features partial alpha-beta pruning. This approach prunes all the values
+    that are only smaller/larger than the required threshold depending on the player.
+
+    This approach is the compromise of pure minimax and alpha-beta pruning. This approach only calculates all of the
+    best route and skips the rest of the routes
+"""
+
 import timeit
 import statistics
 

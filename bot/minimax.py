@@ -269,8 +269,8 @@ def minimax_alpha_beta(board, depth, is_maximizing_player, alpha, beta):
     Using minimax algorithm to find the optimal move for the current state of the game.
 
     This version of the minimax algorithm includes alpha beta pruning. The pruning prunes all the values that is
-    equal or smaller than the required threshold. Thus, this version can only return 1 move, as the other moves
-    are pruned.
+    equal or smaller/larger than the required threshold depending on the player. Thus, this version can only return 1
+    move, as the other moves are pruned.
 
     :param board: type: numpy.ndarray
     The current state of the Tic Tac Toe board game

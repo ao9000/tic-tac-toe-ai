@@ -1,3 +1,8 @@
+"""
+    Contain functions related to the creation, manipulation and the retrival of any useful information of the
+    tic-tac-toe board.
+"""
+
 import numpy as np
 from copy import deepcopy
 
@@ -65,8 +70,8 @@ def win_check(board):
         return True
 
     # Diagonal win / type
-    if all([board[index][-(index+1)] == HUMAN_STATE for index in range(len(board))]) or \
-            all([board[index][-(index+1)] == BOT_STATE for index in range(len(board))]):
+    if all([board[index][-(index + 1)] == HUMAN_STATE for index in range(len(board))]) or \
+            all([board[index][-(index + 1)] == BOT_STATE for index in range(len(board))]):
         return True
 
     return False
@@ -98,8 +103,8 @@ def get_winning_combination_index(board):
         return [(index, index) for index in range(0, 3)]
 
     # Diagonal win / type
-    if all([board[index][-(index+1)] == HUMAN_STATE for index in range(len(board))]) or \
-            all([board[index][-(index+1)] == BOT_STATE for index in range(len(board))]):
+    if all([board[index][-(index + 1)] == HUMAN_STATE for index in range(len(board))]) or \
+            all([board[index][-(index + 1)] == BOT_STATE for index in range(len(board))]):
         return [(row_index, box_index) for row_index, box_index in zip(range(0, 3), reversed(range(0, 3)))]
 
     return None
@@ -162,7 +167,8 @@ def display_board(board, players):
         for box_index, box in enumerate(row, start=0):
             if box == HUMAN_STATE:
                 # Human mark
-                board_copy[row_index][box_index] = next(player.mark for player in players if player.state == HUMAN_STATE)
+                board_copy[row_index][box_index] = next(
+                    player.mark for player in players if player.state == HUMAN_STATE)
             elif box == BOT_STATE:
                 # Bot mark
                 board_copy[row_index][box_index] = next(player.mark for player in players if player.state == BOT_STATE)
