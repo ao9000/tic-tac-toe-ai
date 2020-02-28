@@ -11,12 +11,12 @@ def selection_screen(screen, mouse_position):
     width, height = screen.get_width(), screen.get_height()
 
     # Render text prompt
-    title = Textbox("Select your mark!", "black", "freesans", 64, (width * 1 / 2), (height * 1 / 10))
+    title = Textbox("Select your mark!", "black", "arial", 64, (width * 1 / 2), (height * 1 / 10))
 
     # Render choices
     # X choice
-    x_sign = Textbox("X", "firebrick", "freesans", 124, (width * 1 / 3), (height * 1 / 2))
-    x_label = Textbox("Cross", "firebrick", "freesans", 34, (width * 1 / 3), (height * 2 / 3))
+    x_sign = Textbox("X", "firebrick", "arial", 124, (width * 1 / 3), (height * 1 / 2))
+    x_label = Textbox("Cross", "firebrick", "arial", 34, (width * 1 / 3), (height * 2 / 3))
 
     # Check mouse position, light up choices for interactivity
     if x_sign.is_mouse_hover(mouse_position) or x_label.is_mouse_hover(mouse_position):
@@ -25,8 +25,8 @@ def selection_screen(screen, mouse_position):
         x_label.text_color = "red"
 
     # O choice
-    o_sign = Textbox("O", "aqua", "freesans", 124, (width * 2 / 3), (height * 1 / 2))
-    o_label = Textbox("Nought", "aqua", "freesans", 34, (width * 2 / 3), (height * 2 / 3))
+    o_sign = Textbox("O", "aqua", "arial", 124, (width * 2 / 3), (height * 1 / 2))
+    o_label = Textbox("Nought", "aqua", "arial", 34, (width * 2 / 3), (height * 2 / 3))
 
     # Check mouse position, light up choices for interactivity
     if o_sign.is_mouse_hover(mouse_position) or o_label.is_mouse_hover(mouse_position):
@@ -66,16 +66,16 @@ def board_information(screen, player, records):
     width, height = screen.get_width(), screen.get_height()
 
     # Text to show number of human wins
-    human_win_count = Textbox("Human wins: {}".format(records['human_win']), "green", "freesans", 12, (width * 1 / 6), (height * 1 / 20))
+    human_win_count = Textbox("Human wins: {}".format(records['human_win']), "green", "arial", 12, (width * 1 / 6), (height * 1 / 20))
 
     # Text to show number of bot wins
-    bot_win_count = Textbox("Bot wins: {}".format(records['bot_win']), "green", "freesans", 12, (width * 2 / 6), (height * 1 / 20))
+    bot_win_count = Textbox("Bot wins: {}".format(records['bot_win']), "green", "arial", 12, (width * 2 / 6), (height * 1 / 20))
 
     # Text to show number of draws
-    draw_count = Textbox("Draws: {}".format(records['draw']), "green", "freesans", 12, (width * 4 / 6), (height * 1 / 20))
+    draw_count = Textbox("Draws: {}".format(records['draw']), "green", "arial", 12, (width * 4 / 6), (height * 1 / 20))
 
     # Text to show whose turn it is
-    turn_name = Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "freesans", 12, (width * 3 / 6), (height * 1 / 20))
+    turn_name = Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "arial", 12, (width * 3 / 6), (height * 1 / 20))
 
     interface_items_dict = {
         'human_win_count': human_win_count,
@@ -139,11 +139,11 @@ def game_board(screen, board, players):
             width, height = box_rect_instance.width_height
             if box == BOT_STATE:
                 # Bot state or human state
-                current_moves.append(Textbox(bot_mark, "aqua" if bot_mark == "O" else "firebrick", "freesans", 124,
+                current_moves.append(Textbox(bot_mark, "aqua" if bot_mark == "O" else "firebrick", "arial", 124,
                                              (x_pos + (width * 1 / 2)), (y_pos + (height * 1 / 2))))
             elif box == HUMAN_STATE:
                 # Human state
-                current_moves.append(Textbox(human_mark, "aqua" if human_mark == "O" else "firebrick", "freesans", 124,
+                current_moves.append(Textbox(human_mark, "aqua" if human_mark == "O" else "firebrick", "arial", 124,
                                              (x_pos + (width * 1 / 2)), (y_pos + (height * 1 / 2))))
             else:
                 # Blank state
