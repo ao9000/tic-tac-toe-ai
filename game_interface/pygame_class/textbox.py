@@ -27,7 +27,7 @@ class Textbox:
         # Check if custom font or system font
         if self._font_name not in pygame.font.get_fonts():
             # Load custom font from file
-            font = pygame.font.Font(self._font_name, self._font_size)
+            font = pygame.font.Font("game_interface/fonts/{}.ttf".format(self._font_name), self._font_size)
         else:
             # Load system font
             font = pygame.font.SysFont(self._font_name, self._font_size)
