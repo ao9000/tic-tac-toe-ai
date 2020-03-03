@@ -188,6 +188,9 @@ def main():
 
                 # Reset board
                 board = create_board()
+
+                # Next game, random starting turn again
+                player = random.choice(players)
             elif is_board_full(board):
                 # Game is finished
 
@@ -199,6 +202,9 @@ def main():
 
                 # Reset board
                 board = create_board()
+
+                # Next game, random starting turn again
+                player = random.choice(players)
             else:
                 # Game not finished
                 # Make a move (bot/human)
@@ -212,11 +218,7 @@ def main():
 
                 # Cycle turns
                 if get_turn_number(board) != records["turn_num"]:
-                    if win_check(board) and is_board_full(board):
-                        # Next game, random turn again
-                        # Random starting player
-                        player = random.choice(players)
-                    else:
+                    if not win_check(board) and not is_board_full(board):
                         # Subsequent turns
                         player = human if player.bot else bot
                         records["turn_num"] = get_turn_number(board)
