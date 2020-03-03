@@ -212,7 +212,11 @@ def main():
 
                 # Cycle turns
                 if get_turn_number(board) != records["turn_num"]:
-                    if not win_check(board) and not is_board_full(board):
+                    if win_check(board) and is_board_full(board):
+                        # Next game, random turn again
+                        # Random starting player
+                        player = random.choice(players)
+                    else:
                         # Subsequent turns
                         player = human if player.bot else bot
                         records["turn_num"] = get_turn_number(board)
