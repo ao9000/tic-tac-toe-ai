@@ -1,3 +1,8 @@
+"""
+    Contains all the pytest test cases regarding the minimax algorithm
+"""
+
+
 from bot.minimax import minimax, minimax_soft_alpha_beta, minimax_alpha_beta, get_depth
 from tests import get_all_possible_board_states
 from math import inf
@@ -5,6 +10,10 @@ from game.board import HUMAN_STATE, BOT_STATE, create_board
 
 
 def test_blank_board():
+    """
+    Testing for result consistency between the 3 approaches to minimax algorithm
+    Testing algorithm result from evaluating a blank board
+    """
     board = create_board()
 
     minimax_result = minimax(board, get_depth(board), True)
@@ -18,6 +27,11 @@ def test_blank_board():
 
 
 def test_board_human_1st_turn():
+    """
+    Testing for result consistency between the 3 approaches to minimax algorithm
+    Testing algorithm result from evaluating all possible states of the board where the human starts first
+    """
+
     for turn_num in range(1, 9):
         boards = get_all_possible_board_states(turn_num, HUMAN_STATE, BOT_STATE)
 
@@ -35,6 +49,10 @@ def test_board_human_1st_turn():
 
 
 def test_board_bot_1st_turn():
+    """
+    Testing for result consistency between the 3 approaches to minimax algorithm
+    Testing algorithm result from evaluating all possible states of the board where the bot starts first
+    """
     for turn_num in range(1, 9):
         boards = get_all_possible_board_states(turn_num, BOT_STATE, HUMAN_STATE)
 
