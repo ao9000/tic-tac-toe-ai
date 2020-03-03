@@ -1,3 +1,7 @@
+"""
+    Pygame based version of tic-tac-toe with minimax algorithm artificial intelligence (AI) game
+"""
+
 # UI imports
 import pygame
 import sys
@@ -17,6 +21,15 @@ tick_rate = 60
 
 
 def setup_game():
+    """
+    Setup the pygame game window and tick rate properties
+
+    :return: type: tuple
+    Contains the pygame.surface and pygame.clock objects for the game
+
+    pygame.surface class is responsible for the the window properties such as the dimension and caption settings
+    pygame.clock class is responsible for the frame per second (fps) or tick rate of the game
+    """
     # Initialize module
     pygame.init()
 
@@ -36,6 +49,16 @@ def setup_game():
 
 
 def render_items_to_screen(screen, interface_items):
+    """
+    Renders all the items in interface_items dictionary to the screen
+
+    :param screen: type: pygame.surface
+    The surface/screen of the game for displaying purposes
+
+    :param interface_items: type: dict
+    Dictionary containing all of the user interface (UI) items to be displayed
+    """
+    # List to exclude rendering
     exclude_list = [
         'game_board_rects'
     ]
@@ -51,6 +74,12 @@ def render_items_to_screen(screen, interface_items):
 
 
 def post_game_delay():
+    """
+    Forces the screen to update while adding a delay and clearing any events that were added during the delay.
+
+    Used for adding a delay between multiple tic-tac-toe games. This is to provide time for the player to react to the
+    game.
+    """
     # Refresh screen & add delay
     pygame.display.update()
     # Caution, when wait is active, event gets stored in a queue waiting to be executed.
@@ -60,6 +89,11 @@ def post_game_delay():
 
 
 def main():
+    """
+    The main function of the game.
+    Responsible for the setup of game window properties, creating players, scheduling scenes in the game, recording
+    player statistics and looping the game.
+    """
     # Setup game
     screen, clock = setup_game()
 
