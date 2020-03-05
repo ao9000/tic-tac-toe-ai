@@ -1,5 +1,19 @@
-# RGB color definitions
+"""
+    Contains functions related to color
+"""
+
+
 def color_to_rgb(color):
+    """
+    Convert color name to its red green blue (RGB) values
+
+    :param color: type: str
+    Name of the color
+
+    :return: type: tuple
+    Tuple containing the RGB value of the requested color
+    """
+    # RGB color definitions
     color_rgb_dict = {
         "maroon": (128, 0, 0),
         "dark_red": (139, 0, 0),

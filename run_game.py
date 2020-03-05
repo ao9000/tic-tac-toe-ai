@@ -6,12 +6,12 @@
 import pygame
 import sys
 from game_interface.color import color_to_rgb
-from game_interface.templates import game_board, selection_screen, board_information, highlight_win, handle_user_input_selection_screen
+from game_interface.templates import game_board, selection_screen, board_information, highlight_win
 
 # Game logic imports
 import random
 from game.board import create_board, win_check, is_board_full, get_turn_number
-from game_interface.helper_functions import bot_move_handler, human_move_handler, record_draw, record_win
+from game_interface.helper_functions import bot_move_input_handler, human_move_input_handler, record_draw, record_win, human_input_selection_screen_handler
 
 # Define screen size
 width, height = 600, 600
@@ -77,8 +77,8 @@ def post_game_delay():
     """
     Forces the screen to update while adding a delay and clearing any events that were added during the delay.
 
-    Used for adding a delay between multiple tic-tac-toe games. This is to provide time for the player to react to the
-    game.
+    Used for adding a delay between multiple tic-tac-toe games. This is to provide time for the player to react to what
+    is happening in the game.
     """
     # Refresh screen & add delay
     pygame.display.update()
@@ -151,7 +151,7 @@ def main():
 
             # Handle user input
             if mouse_clicked:
-                handle_user_input_selection_screen(interface_items, players, mouse_position)
+                human_input_selection_screen_handler(interface_items, players, mouse_position)
 
             # Proceed to next screen if user selected a choice & assign players
             if players:
@@ -210,11 +210,11 @@ def main():
                 # Make a move (bot/human)
                 if player.bot:
                     # Bot turn
-                    bot_move_handler(board, player)
+                    bot_move_input_handler(board, bot)
                 else:
                     if mouse_clicked:
                         # Human turn
-                        human_move_handler(board, interface_items, mouse_position, human)
+                        human_move_input_handler(board, interface_items, mouse_position, human)
 
                 # Cycle turns
                 if get_turn_number(board) != records["turn_num"]:

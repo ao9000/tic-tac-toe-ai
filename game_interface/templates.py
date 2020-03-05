@@ -1,8 +1,12 @@
+"""
+    Contain scene templates used in the tic-tac-toe pygame app
+"""
+
+
 from game_interface.pygame_class.textbox import Textbox
 from game_interface.pygame_class.line import Line
 from game_interface.pygame_class.rect import Rect
 from game.board import get_winning_combination_index, BOT_STATE, HUMAN_STATE
-from game.player import Player
 
 
 # Screen definitions
@@ -43,22 +47,6 @@ def selection_screen(screen, mouse_position):
     }
 
     return interface_items_dict
-
-
-def handle_user_input_selection_screen(interface_items, players, mouse_position):
-    if interface_items['x_sign'].is_mouse_hover(mouse_position) or interface_items['x_label'].is_mouse_hover(mouse_position):
-        # Create players
-        bot = Player(bot=True, state=BOT_STATE, mark="O")
-        human = Player(bot=False, state=HUMAN_STATE, mark="X")
-        players.append(bot)
-        players.append(human)
-
-    elif interface_items['o_sign'].is_mouse_hover(mouse_position) or interface_items['o_label'].is_mouse_hover(mouse_position):
-        # Create players
-        bot = Player(bot=True, state=BOT_STATE, mark="X")
-        human = Player(bot=False, state=HUMAN_STATE, mark="O")
-        players.append(bot)
-        players.append(human)
 
 
 def board_information(screen, player, records):
