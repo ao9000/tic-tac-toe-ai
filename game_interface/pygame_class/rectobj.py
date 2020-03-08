@@ -9,13 +9,13 @@
 import pygame
 
 
-class Rect:
+class RectObj:
     """
-    Pygame.rect object adapted into a class for standardisation within the script
+    Pygame.Rect object adapted into a class for standardisation within the script
     """
     def __init__(self, left_top, width_height):
         """
-        Constructor for Rect class
+        Constructor for RectObj class
 
         :param left_top: type: tuple
         Tuple of the X & Y coordinates of the left top corner of the rect
