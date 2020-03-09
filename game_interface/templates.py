@@ -4,8 +4,9 @@
 
 
 from game_interface.pygame_class.textbox import Textbox
-from game_interface.pygame_class.line import Line
-from game_interface.pygame_class.rect import Rect
+from game_interface.pygame_class.shapes.line import Line
+from game_interface.pygame_class.shapes.rect import Rect
+from game_interface.pygame_class.rectobj import RectObj
 from game.board import get_winning_combination_index, BOT_STATE, HUMAN_STATE
 
 
@@ -53,23 +54,30 @@ def board_information(screen, player, records):
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
-    # Text to show number of human wins
-    human_win_count = Textbox("Human wins: {}".format(records['human_win']), "green", "arial", 12, (width * 1 / 6), (height * 1 / 20))
+    # Frame/layout of information board
+    frame = Rect("light_grey", (0, 0), (width, (height * 1.5 / 10)), 0)
 
-    # Text to show number of bot wins
-    bot_win_count = Textbox("Bot wins: {}".format(records['bot_win']), "green", "arial", 12, (width * 2 / 6), (height * 1 / 20))
+    # Header of the information board
+    header = Textbox("Scoreboard", "black", "arial", 25, (width * 1 / 2), (height * 1 / 40))
 
     # Text to show number of draws
-    draw_count = Textbox("Draws: {}".format(records['draw']), "green", "arial", 12, (width * 4 / 6), (height * 1 / 20))
+    draw_header = Textbox("Draws", "green", "arial", 20, (width * 1 / 2), (height * 0.75 / 10))
+    draw_count = Textbox(str(records['draw']), "green", "arial", 30, (width * 1 / 2), (height * 1.25 / 10))
 
-    # Text to show whose turn it is
-    turn_name = Textbox("{}'s turn".format("Bot" if player.bot else "Human"), "green", "arial", 12, (width * 3 / 6), (height * 1 / 20))
+    # Text to show number of human wins
+    human_win_header = Textbox("Human", "green", "arial", 20, (width * 1 / 3), (height * 0.75 / 10))
+    human_win_count = Textbox(str(records['human_win']), "green", "arial", 30, (width * 1 / 3), (height * 1.25 / 10))
+
+    # Text to show number of bot wins
+    bot_win_header = Textbox("Bot", "green", "arial", 20, (width * 2 / 3), (height * 0.75 / 10))
+    bot_win_count = Textbox(str(records['bot_win']), "green", "arial", 30, (width * 2 / 3), (height * 1.25 / 10))
 
     interface_items_dict = {
-        'human_win_count': human_win_count,
-        'bot_win_count': bot_win_count,
-        'draw_count': draw_count,
-        'turn_name': turn_name
+        'information_board_frame': frame,
+        'information_board_header': header,
+        'human_win_count': [human_win_count, human_win_header],
+        'bot_win_count': [bot_win_count, bot_win_header],
+        'draw_count': [draw_count, draw_header]
     }
 
     return interface_items_dict
@@ -80,18 +88,20 @@ def game_board(screen, board, players):
     width, height = screen.get_width(), screen.get_height()
 
     # Calculate boarder
-    boarder_width = width * (1 / 10)
-    boarder_height = height * (1 / 10)
+    left_boarder = width * (0.5 / 10)
+    right_boarder = width * (0.5 / 10)
+    top_boarder = height * (2 / 10)
+    bottom_boarder = height * (0.5 / 10)
 
     # Define board lines
     # First horizontal line
-    h1 = Line("black", (boarder_width, boarder_height + (height - (2 * boarder_height)) * (1 / 3)), (width - boarder_width, boarder_height + (height - (2 * boarder_height)) * (1 / 3)), 3)
+    h1 = Line("black", (left_boarder, top_boarder + (height - (top_boarder + bottom_boarder)) * (1 / 3)), (width - right_boarder, top_boarder + (height - (top_boarder + bottom_boarder)) * (1 / 3)), 3)
     # Second horizontal line
-    h2 = Line("black", (boarder_width, boarder_height + (height - (2 * boarder_height)) * (2 / 3)), (width - boarder_width, boarder_height + (height - (2 * boarder_height)) * (2 / 3)), 3)
+    h2 = Line("black", (left_boarder, top_boarder + (height - (top_boarder + bottom_boarder)) * (2 / 3)), (width - right_boarder, top_boarder + (height - (top_boarder + bottom_boarder)) * (2 / 3)), 3)
     # First vertical line
-    v1 = Line("black", (boarder_width + (width - (2 * boarder_width)) * (1 / 3), boarder_height), (boarder_width + (width - (2 * boarder_width)) * (1 / 3), height - boarder_height), 3)
+    v1 = Line("black", (left_boarder + (width - (left_boarder + right_boarder)) * (1 / 3), top_boarder), (left_boarder + (width - (left_boarder + right_boarder)) * (1 / 3), height - bottom_boarder), 3)
     # Second vertical line
-    v2 = Line("black", (boarder_width + (width - (2 * boarder_width)) * (2 / 3), boarder_height), (boarder_width + (width - (2 * boarder_width)) * (2 / 3), height - boarder_height), 3)
+    v2 = Line("black", (left_boarder + (width - (left_boarder + right_boarder)) * (2 / 3), top_boarder), (left_boarder + (width - (left_boarder + right_boarder)) * (2 / 3), height - bottom_boarder), 3)
 
     # Find coordinates of each box in the board
     # Find max/min coordinates of the lines
@@ -112,8 +122,8 @@ def game_board(screen, board, players):
     for row in range(0, 3):
         for box in range(0, 3):
             game_board_rects[row].append(
-                Rect((min_width + (game_board_width * (box / 3)), min_height + (game_board_height * (row / 3))),
-                     (game_board_width * (1 / 3), game_board_height * (1 / 3))))
+                RectObj((min_width + (game_board_width * (box / 3)), min_height + (game_board_height * (row / 3))),
+                        (game_board_width * (1 / 3), game_board_height * (1 / 3))))
 
     # Define objects of current moves on board
     # Get player marks
@@ -155,7 +165,7 @@ def highlight_win(interface_items, board):
          interface_items['game_board_rects'][winning_combination_index[2][0]][winning_combination_index[2][1]].get_middle_point_coordinates(), 10)
 
     interface_items_dict = {
-        'strikethrough':strikethrough
+        'strikethrough': strikethrough
     }
 
     return interface_items_dict
