@@ -12,6 +12,21 @@ from game.board import get_winning_combination_index, BOT_STATE, HUMAN_STATE
 
 # Screen definitions
 def selection_screen(screen, mouse_position):
+    """
+    Render template for selection screen
+    Selection screen is where the user selects his mark (X or O)
+
+    Returns all of the objects that needs to be rendered to the screen
+
+    :param screen: type: pygame.surface
+    The surface/screen of the game to extract the height & width of the screen
+
+    :param mouse_position: type: tuple
+    Tuple of the mouse X & Y coordinates in pygame window
+
+    :return: type: dict
+    Dictionary of all the items to be rendered
+    """
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
@@ -50,15 +65,30 @@ def selection_screen(screen, mouse_position):
     return interface_items_dict
 
 
-def board_information(screen, player, records):
+def board_information(screen, records):
+    """
+    Render template for board information
+    Board information shows the number of draws and wins for human & bot
+
+    Returns all of the objects that needs to be rendered to the screen
+
+    :param screen: type: pygame.surface
+    The surface/screen of the game to extract the height & width of the screen
+
+    :param records: type: dict
+    Dictionary containing all recorded statistics for the current run of the game
+
+    :return: type: dict
+    Dictionary of all the items to be rendered
+    """
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
     # Frame/layout of information board
-    frame = Rect("light_grey", (0, 0), (width, (height * 1.5 / 10)), 0)
+    information_board_frame = Rect("light_grey", (0, 0), (width, (height * 1.5 / 10)), 0)
 
     # Header of the information board
-    header = Textbox("Scoreboard", "black", "arial", 25, (width * 1 / 2), (height * 1 / 40))
+    information_board_header = Textbox("Scoreboard", "black", "arial", 25, (width * 1 / 2), (height * 1 / 40))
 
     # Text to show number of draws
     draw_header = Textbox("Draws", "green", "arial", 20, (width * 1 / 2), (height * 0.75 / 10))
@@ -73,8 +103,8 @@ def board_information(screen, player, records):
     bot_win_count = Textbox(str(records['bot_win']), "green", "arial", 30, (width * 2 / 3), (height * 1.25 / 10))
 
     interface_items_dict = {
-        'information_board_frame': frame,
-        'information_board_header': header,
+        'information_board_frame': information_board_frame,
+        'information_board_header': information_board_header,
         'human_win_count': [human_win_count, human_win_header],
         'bot_win_count': [bot_win_count, bot_win_header],
         'draw_count': [draw_count, draw_header]
@@ -84,6 +114,24 @@ def board_information(screen, player, records):
 
 
 def game_board(screen, board, players):
+    """
+    Render template for game board screen
+    Game board screen contains the tic-tac-toe board and the current states of the board
+
+    Returns all of the objects that needs to be rendered to the screen
+
+    :param screen: type: pygame.surface
+    The surface/screen of the game to extract the height & width of the screen
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :param players: type: list
+    List containing both human & bot player class instances
+
+    :return: type: dict
+    Dictionary of all the items to be rendered
+    """
     # Get screen size
     width, height = screen.get_width(), screen.get_height()
 
@@ -157,6 +205,22 @@ def game_board(screen, board, players):
 
 
 def highlight_win(interface_items, board):
+    """
+    Render template for highlight win
+    Highlight win is the action of striking through any winning combinations on the board
+
+    Returns all of the objects that needs to be rendered to the screen
+
+    :param interface_items: type: dict
+    Dictionary of all the items to be rendered previously
+    This is to find the game board rects from the previously rendered game board
+
+    :param board: type: numpy.ndarray
+    The current state of the Tic Tac Toe board game
+
+    :return: type: dict
+    Dictionary of all the items to be rendered
+    """
     # Get list of winning combination index, only required index 0 and 2
     winning_combination_index = get_winning_combination_index(board)
 

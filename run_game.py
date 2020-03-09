@@ -166,7 +166,7 @@ def main():
         elif game:
             # Game scene
             # Draw board information
-            interface_items = board_information(screen, player, records)
+            interface_items = board_information(screen, records)
             render_items_to_screen(screen, interface_items)
 
             # Draw tic tac toe board
