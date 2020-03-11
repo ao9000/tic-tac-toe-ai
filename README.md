@@ -15,18 +15,32 @@ GUI (Pygame) implementation of the game
 ![Alt text](images/run_game.png?raw=true "Selection scene")
 ![Alt text](images/run_game2.png?raw=true "Game board scene")
 
-## Core tech/framework used
-- Minimax AI
+## Core framework/concepts used
+- Minimax with Alpha-beta pruning
 
-Used recursively to derive the best possible move
+Minimax is an artificial intelligence (AI) algorithm used in 2-player decision based board games such as Tic Tac Toe, Checkers and Chess.
+Minimax algorithm performs well on perfect information games where both players are informed about the previous and possible future moves of the player.
+Perfect information games provides the algorithm the ability to predict future moves made by the opponent.
+The well-informed algorithm then can execute a counter-play to whatever move the opponent decides to take.
+
+However, Minimax by itself is very slow, even in the game of Tic Tac Toe that only has a maximum of 9 possible moves.
+After all, the algorithm is running through all of the possible moves and calculating the best move against it.
+Keeping in mind that every possible move opens up another set of possible moves, the algorithm will take the longest to compute at the early stages of the game and will slowly gain speed towards the mid and late stages of the game.
+To avoid waiting for an average of 10 seconds every time the game starts, this is where Alpha-beta pruning comes in.
+Alpha-beta pruning eliminates paths in the decision tree that are guaranteed to do worse than the alternate paths.
+Thus, saving time computing by skipping the branches altogether.
+
+- Numpy arrays
+
+Using Numpy arrays instead of Python list provides some computational speed boost and memory optimization.
 
 - Pygame
 
-Used to build the user interface of the game
+Using pygame to build the graphical user interface (GUI) for the Tic Tac Toe game.
 
--Pyinstaller
+- Pyinstaller
 
-Used to package the game into an executable file
+Used to package the pygame into an executable file to facility easy distribution.
 
 ## Getting started
 Follow the steps in order below
@@ -72,3 +86,14 @@ python test_minimax_speed.py
 # Make sure your in the root directory of the project
 pytest -vv
 ```
+
+## References
+Sources that I took reference during development
+
+Lague, S. (2018). Algorithms Explained – minimax and alpha-beta pruning. YouTube. Retrieved 11 March 2020, from https://youtu.be/l-hh51ncgDI.
+
+Pygame Front Page — pygame v2.0.0.dev5 documentation. Pygame.org. Retrieved 11 March 2020, from https://www.pygame.org/docs/.
+
+PyInstaller Manual — PyInstaller 3.6 documentation. Pyinstaller.readthedocs.io. Retrieved 11 March 2020, from https://pyinstaller.readthedocs.io/en/stable/index.html.
+
+Python Lists vs. Numpy Arrays - What is the difference?: IST Advanced Topics Primer. Webcourses.ucf.edu. Retrieved 11 March 2020, from https://webcourses.ucf.edu/courses/1249560/pages/python-lists-vs-numpy-arrays-what-is-the-difference.
