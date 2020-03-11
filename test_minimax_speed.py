@@ -21,7 +21,7 @@
     that are only smaller/larger than the required threshold depending on the player.
 
     This approach is the compromise of pure minimax and alpha-beta pruning. This approach only calculates all of the
-    best route and skips the rest of the routes
+    best route and skips the rest of the routes that does not pass the threshold.
 """
 
 import timeit
