@@ -16,9 +16,6 @@ from game_interface.helper_functions import bot_move_input_handler, human_move_i
 # Define screen size
 width, height = 600, 600
 
-# Define FPS
-tick_rate = 60
-
 
 def setup_game():
     """
@@ -42,8 +39,6 @@ def setup_game():
 
     # Define game clock
     clock = pygame.time.Clock()
-    # tick rate
-    clock.tick(tick_rate)
 
     return screen, clock
 
@@ -123,6 +118,9 @@ def main():
 
     # Game loop
     while True:
+        # tick rate
+        clock.tick(30)
+
         mouse_position = pygame.mouse.get_pos()
         mouse_clicked = False
 
